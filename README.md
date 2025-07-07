@@ -50,6 +50,7 @@ such as fire, gas leaks, and water flooding. The system aims to reduce response 
 ## 🧠 Project Architecture
 
 The app is structured following **Clean Architecture Principles**, promoting separation of concerns and testability:
+
 app/
 
 ├── data/ # API, DTOs, and repositories
