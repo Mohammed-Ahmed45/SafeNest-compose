@@ -53,8 +53,11 @@ The app is structured following **Clean Architecture Principles**, promoting sep
 
 app/
 ├── data/          # Network & local sources
+
 ├── domain/        # Business logic and use cases
+
 ├── presentation/  # UI with Jetpack Compose
+
 └── di/            # Dependency Injection (Hilt)
 
 
