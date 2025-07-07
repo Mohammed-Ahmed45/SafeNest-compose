@@ -50,15 +50,15 @@ such as fire, gas leaks, and water flooding. The system aims to reduce response 
 ## 🧠 Project Architecture
 
 The app is structured following **Clean Architecture Principles**, promoting separation of concerns and testability:
-
 app/
-├── data/          # Network & local sources
 
-├── domain/        # Business logic and use cases
+├── data/ # API, DTOs, and repositories
 
-├── presentation/  # UI with Jetpack Compose
+├── domain/ # Business logic and use cases
 
-└── di/            # Dependency Injection (Hilt)
+├── presentation/ # UI layer using Jetpack Compose
+
+└── di/ # Dependency Injection with Hilt
 
 
 
