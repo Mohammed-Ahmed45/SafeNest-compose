@@ -22,15 +22,15 @@ such as fire, gas leaks, and water flooding. The system aims to reduce response 
 ## 📱 Application Screenshots
 
 <div align="center">
-  <img src="screenshots/Screenshot%202025-07-07%20100454.png" width="250"/>
-  <img src="screenshots/Screenshot%202025-07-07%20100609.png" width="250"/>
-  <img src="screenshots/Screenshot%202025-07-07%20100631.png" width="250"/>
-  <img src="screenshots/Screenshot%202025-07-07%20100711.png" width="250"/>
-  <img src="screenshots/Screenshot%202025-07-07%20100729.png" width="250"/>
-  <img src="screenshots/Screenshot%202025-07-07%20100805.png" width="250"/>
-  <img src="screenshots/Screenshot%202025-07-07%20100816.png" width="250"/>
-  <img src="screenshots/Screenshot%202025-07-07%20100835.png" width="250"/>
-  <img src="screenshots/Screenshot%202025-07-07%20100851.png" width="250"/>
+  <img src="Screenshot%202025-07-07%20100454.png" width="250"/>
+  <img src="Screenshot%202025-07-07%20100609.png" width="250"/>
+  <img src="Screenshot%202025-07-07%20100631.png" width="250"/>
+  <img src="Screenshot%202025-07-07%20100711.png" width="250"/>
+  <img src="Screenshot%202025-07-07%20100729.png" width="250"/>
+  <img src="Screenshot%202025-07-07%20100805.png" width="250"/>
+  <img src="Screenshot%202025-07-07%20100816.png" width="250"/>
+  <img src="Screenshot%202025-07-07%20100835.png" width="250"/>
+  <img src="Screenshot%202025-07-07%20100851.png" width="250"/>
 </div>
 
 ---
