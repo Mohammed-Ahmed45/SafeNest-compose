@@ -1,6 +1,7 @@
 package com.mohamed.safenest.ui.screens.alertscreen
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -17,9 +18,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,10 +32,18 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.mohamed.domain.model.AlertItem
-import com.mohamed.safenest.data.api.AlertsViewModel
+import com.mohamed.safenest.ui.theme.colors
+import com.mohamed.safenest.ui.utils.ErrorDialog
+import com.mohamed.safenest.ui.viewmodel.AlertsViewModel
 
 @Composable
-fun GasTabContent(viewModel: AlertsViewModel = hiltViewModel()) {
+fun GasTabContent(
+    modifier: Modifier = Modifier,
+    viewModel: AlertsViewModel = hiltViewModel(),
+) {
+    LaunchedEffect(Unit) {
+        viewModel.getGasAlerts(viewModel.errorState)
+    }
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -44,6 +55,20 @@ fun GasTabContent(viewModel: AlertsViewModel = hiltViewModel()) {
             GasItem(items)
         }
     }
+    ErrorDialog(errorState = viewModel.errorState) {
+        viewModel.getGasAlerts(viewModel.errorState)
+    }
+    if (viewModel.isLoading.value)
+        Box(
+            modifier = modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator(
+                color = colors.LightBlue,
+            )
+        }
+
+
 }
 
 @Composable
@@ -61,7 +86,6 @@ fun GasItem(items: AlertItem) {
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // أيقونة التنبيه
             AsyncImage(
                 model = items.icon,
                 contentDescription = "Fire Alert Icon",
@@ -73,7 +97,6 @@ fun GasItem(items: AlertItem) {
 
             Spacer(modifier = Modifier.width(16.dp))
 
-            // معلومات التنبيه
             Column(
                 modifier = Modifier
                     .weight(1f)
@@ -81,7 +104,7 @@ fun GasItem(items: AlertItem) {
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = items.type ?: "غير محدد",
+                    text = items.type ?: "",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface
@@ -90,7 +113,7 @@ fun GasItem(items: AlertItem) {
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = items.status ?: "غير معروف",
+                    text = items.status ?: "",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

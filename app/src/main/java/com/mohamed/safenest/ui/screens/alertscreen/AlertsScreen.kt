@@ -1,5 +1,6 @@
 package com.mohamed.safenest.ui.screens.alertscreen
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.mohamed.safenest.data.api.AlertsViewModel
+import com.mohamed.safenest.ui.viewmodel.AlertsViewModel
 
 @Composable
 fun AlertsScreen(
@@ -32,11 +33,11 @@ fun AlertsScreen(
 
     val tabList = listOf("Fire", "Water", "Gas")
     var selectedTabIndex by remember { mutableIntStateOf(tabIndex) }
+
+
     LocalContext.current
 
-    LaunchedEffect(Unit) {
-        viewModel.initializeAlertCounts()
-    }
+
 
     LaunchedEffect(tabIndex) {
         selectedTabIndex = tabIndex
@@ -62,12 +63,14 @@ fun AlertsScreen(
         }
         Spacer(modifier = Modifier.height(16.dp))
 
-        Column(
+        Box(
             modifier = Modifier
-                .weight(1f)
                 .fillMaxSize()
+                .padding(bottom = 72.dp)
         ) {
-            when (selectedTabIndex) {
+
+
+        when (selectedTabIndex) {
                 0 -> FireTabContent(viewModel = viewModel)
                 1 -> WaterTabContent(viewModel = viewModel)
                 2 -> GasTabContent(viewModel = viewModel)

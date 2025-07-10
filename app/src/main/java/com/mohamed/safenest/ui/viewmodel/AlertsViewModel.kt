@@ -1,14 +1,19 @@
-package com.mohamed.safenest.data.api
+package com.mohamed.safenest.ui.viewmodel
 
 import android.app.Application
 import android.util.Log
+import androidx.compose.runtime.MutableIntState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.mohamed.domain.model.AlertItem
 import com.mohamed.domain.usecases.GetFireUseCase
 import com.mohamed.domain.usecases.GetGasUseCase
 import com.mohamed.domain.usecases.GetWaterUseCase
+import com.mohamed.safenest.R
+import com.mohamed.safenest.ui.handleError
 import com.mohamed.safenest.ui.screens.fcm.NotificationHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -26,20 +31,20 @@ class AlertsViewModel @Inject constructor(
     val waterAlertsList = mutableStateListOf<AlertItem>()
     val fireAlertList = mutableStateListOf<AlertItem>()
     val gasAlertList = mutableStateListOf<AlertItem>()
+    val errorState = mutableIntStateOf(R.string.empty)
+    val isLoading = mutableStateOf(true)
 
     private val notificationHelper = NotificationHelper(application)
     private var previousWaterAlertsCount = 0
     private var previousFireAlertsCount = 0
     private var previousGasAlertsCount = 0
 
-    fun getWaterAlerts() {
+    fun getWaterAlerts(errorState: MutableIntState) {
         viewModelScope.launch {
             try {
+                isLoading.value = false
                 val response = getWaterUseCase.invoke()
-
-                // Check for new alerts
                 if (response.size > previousWaterAlertsCount && previousWaterAlertsCount > 0) {
-                    // New water alert detected
                     val newAlerts = response.takeLast(response.size - previousWaterAlertsCount)
                     newAlerts.forEach { alert ->
                         notificationHelper.showWaterAlert(alert)
@@ -54,19 +59,18 @@ class AlertsViewModel @Inject constructor(
                 waterAlertsList.clear()
                 waterAlertsList.addAll(response)
             } catch (e: Exception) {
-                Log.e("AlertsViewModel", "Error fetching water alerts: ${e.message}", e)
+                isLoading.value = false
+                errorState.intValue = handleError(e)
             }
         }
     }
 
-    fun getFireAlerts() {
+    fun getFireAlerts(errorState: MutableIntState) {
         viewModelScope.launch {
             try {
                 val response = getFireUseCase.invoke()
-
-                // Check for new alerts
+                isLoading.value = false
                 if (response.size > previousFireAlertsCount && previousFireAlertsCount > 0) {
-                    // New fire alert detected
                     val newAlerts = response.takeLast(response.size - previousFireAlertsCount)
                     newAlerts.forEach { alert ->
                         notificationHelper.showFireAlert(alert)
@@ -81,70 +85,36 @@ class AlertsViewModel @Inject constructor(
                 fireAlertList.clear()
                 fireAlertList.addAll(response)
             } catch (e: Exception) {
-                Log.e("AlertsViewModel", "Error fetching fire alerts: ${e.message}", e)
+                isLoading.value = false
+                errorState.intValue = handleError(e)
             }
         }
     }
 
-    fun getGasAlerts() {
+    fun getGasAlerts(errorState: MutableIntState) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = getGasUseCase.invoke()
 
-                // Check for new alerts
+                isLoading.value = false
                 if (response.size > previousGasAlertsCount && previousGasAlertsCount > 0) {
-                    // New gas alert detected
                     val newAlerts = response.takeLast(response.size - previousGasAlertsCount)
                     newAlerts.forEach { alert ->
                         notificationHelper.showGasAlert(alert)
                         Log.d("AlertsViewModel", "New gas alert notification sent: ${alert.status}")
                     }
                 }
-
                 previousGasAlertsCount = response.size
                 gasAlertList.clear()
                 gasAlertList.addAll(response)
             } catch (e: Exception) {
-                Log.e("AlertsViewModel", "Error fetching gas alerts: ${e.message}", e)
+                isLoading.value = false
+
+                errorState.intValue = handleError(e)
             }
         }
     }
 
-    // Initialize counts on first load
-    fun initializeAlertCounts() {
-        viewModelScope.launch {
-            try {
-                // Get initial counts without triggering notifications
-                val waterResponse = getWaterUseCase.invoke()
-                val fireResponse = getFireUseCase.invoke()
-                val gasResponse = getGasUseCase.invoke()
 
-                previousWaterAlertsCount = waterResponse.size
-                previousFireAlertsCount = fireResponse.size
-                previousGasAlertsCount = gasResponse.size
-
-                waterAlertsList.clear()
-                waterAlertsList.addAll(waterResponse)
-                fireAlertList.clear()
-                fireAlertList.addAll(fireResponse)
-                gasAlertList.clear()
-                gasAlertList.addAll(gasResponse)
-
-                Log.d(
-                    "AlertsViewModel",
-                    "Initial counts - Water: $previousWaterAlertsCount, Fire: $previousFireAlertsCount, Gas: $previousGasAlertsCount"
-                )
-            } catch (e: Exception) {
-                Log.e("AlertsViewModel", "Error initializing alert counts: ${e.message}", e)
-            }
-        }
-    }
-
-    // Method to refresh all alerts and check for new ones
-//    fun refreshAllAlerts() {
-//        getWaterAlerts()
-//        getFireAlerts()
-//        getGasAlerts()
-//    }
 }
 
