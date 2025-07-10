@@ -23,6 +23,8 @@ lifecycleViewmodelKtx = "2.9.0"
 navigationCompose = "2.9.0"
 retrofit = "2.9.0"
 workRuntimeKtxVersion = "2.10.1"
+appcompat = "1.6.1"
+material = "1.10.0"
 
 [libraries]
 accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanistPager" }
@@ -55,9 +57,12 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 landscapist-glide = { module = "com.github.skydoves:landscapist-glide", version.ref = "landscapistGlide" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntimeKtxVersion" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+android-library = { id = "com.android.library", version.ref = "agp" }
 

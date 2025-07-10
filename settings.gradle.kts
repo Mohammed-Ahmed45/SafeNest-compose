@@ -21,3 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "SafeNest"
 include(":app")
+include(":data")
+include(":domain")

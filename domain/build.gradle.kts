@@ -1,25 +1,21 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
     id("kotlin-kapt")
-    id("com.google.gms.google-services")
+//    id("com.google.gms.google-services")
     id("com.google.dagger.hilt.android")
-
+//    id("kotlin-parcelize")
 }
 
 android {
-    namespace = "com.mohamed.safenest"
+    namespace = "com.mohamed.domain"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.mohamed.safenest"
         minSdk = 24
-        targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -38,37 +34,24 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-    buildFeatures {
-        compose = true
-    }
 }
 
 dependencies {
-    implementation(project(":domain"))
-    implementation(project(":data"))
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
-    implementation (libs.androidx.material.icons.extended)
+
+
     // Navigation
-    implementation (libs.androidx.navigation.compose)
+    implementation(libs.androidx.navigation.compose)
     // retrofit
-    implementation (libs.retrofit)
-    implementation (libs.converter.gson)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
     //viewModel
-    implementation (libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
     implementation(libs.glide)
 
@@ -77,7 +60,7 @@ dependencies {
 
 
     // Hilt
-    implementation (libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
 
@@ -101,14 +84,15 @@ dependencies {
     implementation(libs.work.runtime.ktx)
 
     // For notification handling
-    implementation ("androidx.core:core-ktx:1.16.0")
+    implementation("androidx.core:core-ktx:1.16.0")
     // Your existing Compose and other dependencies...
-    implementation ("androidx.compose.runtime:runtime-livedata:1.8.2")
+    implementation("androidx.compose.runtime:runtime-livedata:1.8.2")
 
     // For SharedPreferences
-    implementation ("androidx.preference:preference-ktx:1.2.1")
+    implementation("androidx.preference:preference-ktx:1.2.1")
 }
 
-kapt{
-    correctErrorTypes=true
+
+kapt {
+    correctErrorTypes = true
 }
